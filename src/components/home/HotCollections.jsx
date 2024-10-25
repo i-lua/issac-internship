@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Slider from "react-slick";
-import "./sliderStyles.css";
+import "./hotcollections.css";
 
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
@@ -36,7 +36,7 @@ const HotCollections = () => {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 2,
+          slidesToScroll: 1,
           infinite: true,
         },
       },
