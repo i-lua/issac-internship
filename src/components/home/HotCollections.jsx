@@ -7,12 +7,12 @@ import "./hotcollections.css";
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
+  const apiKey =
+    "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections";
 
   const fetchCollections = async () => {
     try {
-      const response = await axios.get(
-        "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
-      );
+      const response = await axios.get(apiKey);
       setCollections(response.data);
       setLoading(false);
     } catch (error) {
