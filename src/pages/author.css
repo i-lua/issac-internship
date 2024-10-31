@@ -1,0 +1,74 @@
+.skeleton-a {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  animation: skeleton-loading 1.5s infinite ease-in-out;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #f0f0f0;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+}
+
+.row-a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 40px;
+  padding-top: 50px;
+}
+
+.skeleton-profile-a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-left: 20px;
+}
+
+.skeleton-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 0px;
+}
+
+.skeleton-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.skeleton-text-a {
+  height: 16px;
+  width: 80px;
+  border-radius: 16px;
+}
+
+.skeleton-btn-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 20px;
+}
+
+.skeleton-button-a {
+  width: 100px;
+  height: 32px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.skeleton-items-a {
+  height: 300px;
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 16px;
+  margin-bottom: 30px;
+}
