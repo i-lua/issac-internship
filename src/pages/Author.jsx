@@ -32,6 +32,10 @@ const Author = () => {
     setIsFollowing((prev) => !prev);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   if (loading) {
     return (
       <div className="main-skeleton">
