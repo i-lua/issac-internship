@@ -7,12 +7,12 @@ import "./hotcollections.css";
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
+  const apiKey =
+    "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections";
 
   const fetchCollections = async () => {
     try {
-      const response = await axios.get(
-        "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
-      );
+      const response = await axios.get(apiKey);
       setCollections(response.data);
       setLoading(false);
     } catch (error) {
@@ -90,10 +90,10 @@ const HotCollections = () => {
           ) : (
             <Slider {...settings}>
               {collections.map((collection, index) => (
-                <div key={index}>
+                <div key={index} data-aos="fade-up">
                   <div className="nft_coll">
                     <div className="nft_wrap">
-                      <Link to="/item-details">
+                      <Link to={`/item-details/${collection.nftId}`}>
                         <img
                           src={collection.nftImage}
                           className="lazy img-fluid img-main"
@@ -102,7 +102,7 @@ const HotCollections = () => {
                       </Link>
                     </div>
                     <div className="nft_coll_pp">
-                      <Link to="/author">
+                      <Link to={`/author/${collection.authorId}`}>
                         <img
                           className="lazy pp-coll"
                           src={collection.authorImage}

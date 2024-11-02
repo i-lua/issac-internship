@@ -1,37 +1,100 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AuthorImage from "../../images/author_thumbnail.jpg";
-import nftImage from "../../images/nftImage.jpg";
+import axios from "axios";
+import Timer from "../timer";
 
 const ExploreItems = () => {
+  const [exploreItems, setExploreItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [sortOption, setSortOption] = useState("");
+  const [itemsToShow, setItemsToShow] = useState(8);
+
+  useEffect(() => {
+    const fetchExploreItems = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${sortOption}`
+        );
+        setExploreItems(response.data);
+      } catch (error) {
+        console.error("Error fetching explore items:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExploreItems();
+  }, [sortOption]);
+
+  const handleSortChange = (e) => {
+    const { value } = e.target;
+    setSortOption(value);
+  };
+
+  const loadMoreItems = () => {
+    setItemsToShow((prev) => prev + 4);
+  };
+
+  if (loading) {
+    return [1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => (
+      <div
+        className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
+        style={{ display: "block", backgroundSize: "cover" }}
+        key={index}
+      >
+        <div className="author_list_pp skeleton-circle--ni">
+          <i className="fa fa-check checkmark"></i>
+        </div>
+        <div className="skeleton-ni skeleton-image--ni"></div>
+        <div className="nft__item_info">
+          <h4>
+            <div className="skeleton-ni skeleton-text--ni skeleton-title--ni" />
+          </h4>
+          <div className="nft__item_price">
+            <div className="skeleton-ni skeleton-text--ni skeleton-price--ni" />
+          </div>
+          <div className="nft__item_like">
+            <div className="skeleton-ni skeleton-like--ni" />
+          </div>
+        </div>
+      </div>
+    ));
+  }
+
   return (
     <>
       <div>
-        <select id="filter-items" defaultValue="">
+        <select
+          id="filter-items"
+          value={sortOption}
+          onChange={handleSortChange}
+        >
           <option value="">Default</option>
           <option value="price_low_to_high">Price, Low to High</option>
           <option value="price_high_to_low">Price, High to Low</option>
           <option value="likes_high_to_low">Most liked</option>
         </select>
       </div>
-      {new Array(8).fill(0).map((_, index) => (
+      {exploreItems.slice(0, itemsToShow).map((explore, index) => (
         <div
           key={index}
           className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
           style={{ display: "block", backgroundSize: "cover" }}
+          data-aos="zoom-in-up"
         >
           <div className="nft__item">
             <div className="author_list_pp">
               <Link
-                to="/author"
+                to={`/author/${explore.authorId}`}
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
               >
-                <img className="lazy" src={AuthorImage} alt="" />
+                <img className="lazy" src={explore.authorImage} alt="" />
                 <i className="fa fa-check"></i>
               </Link>
             </div>
-            <div className="de_countdown">5h 30m 32s</div>
+            <Timer expiryDate={explore.expiryDate} />
 
             <div className="nft__item_wrap">
               <div className="nft__item_extra">
@@ -51,27 +114,31 @@ const ExploreItems = () => {
                   </div>
                 </div>
               </div>
-              <Link to="/item-details">
-                <img src={nftImage} className="lazy nft__item_preview" alt="" />
+              <Link to={`/item-details/${explore.nftId}`}>
+                <img
+                  src={explore.nftImage}
+                  className="lazy nft__item_preview"
+                  alt=""
+                />
               </Link>
             </div>
             <div className="nft__item_info">
-              <Link to="/item-details">
-                <h4>Pinky Ocean</h4>
+              <Link to={`/item-details/${explore.nftId}`}>
+                <h4>{explore.title}</h4>
               </Link>
-              <div className="nft__item_price">1.74 ETH</div>
+              <div className="nft__item_price">{explore.price} ETH</div>
               <div className="nft__item_like">
                 <i className="fa fa-heart"></i>
-                <span>69</span>
+                <span>{explore.likes}</span>
               </div>
             </div>
           </div>
         </div>
       ))}
       <div className="col-md-12 text-center">
-        <Link to="" id="loadmore" className="btn-main lead">
+        <button onClick={loadMoreItems} className="btn-main lead">
           Load more
-        </Link>
+        </button>
       </div>
     </>
   );

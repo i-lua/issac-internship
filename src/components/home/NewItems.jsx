@@ -2,18 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Slider from "react-slick";
-import './newitems.css'
+import "./newitems.css";
+import Timer from "../timer";
 
 const NewItems = () => {
   const [newItems, setNewItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const apiKey =
+    "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
-        );
+        const response = await axios.get(apiKey);
         setNewItems(response.data);
         setLoading(false);
       } catch (error) {
@@ -60,43 +61,6 @@ const NewItems = () => {
     prevArrow: <SamplePrevArrow />,
   };
 
-  const calculateTimeLeft = (expiryDate) => {
-    const difference = new Date(expiryDate).getTime() - new Date().getTime()
-    let timeLeft = {}
-
-    if (difference > 0) {
-      timeLeft = {
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference /1000) % 60),
-      }
-    }
-
-    return timeLeft
-  }
-
-  const Timer = ({expiryDate}) => {
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(expiryDate))
-
-    useEffect(() => {
-      const timer = setInterval(() => {
-        setTimeLeft(calculateTimeLeft(expiryDate))
-      }, 1000)
-
-      return () => clearInterval(timer)
-    }, [expiryDate])
-
-    if (timeLeft.hours === undefined && timeLeft.minutes === undefined && timeLeft.seconds === undefined) {
-      return null
-    }
-
-    return (
-      <div className="de_countdown">
-        {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
-      </div>
-    )
-  }
-
   return (
     <section id="section-items" className="no-bottom">
       <div className="container">
@@ -113,12 +77,12 @@ const NewItems = () => {
               {[1, 2, 3, 4].map((_, index) => (
                 <div className="nft__item" key={index}>
                   <div className="author_list_pp skeleton-circle--ni">
-                  <i className="fa fa-check checkmark"></i>
+                    <i className="fa fa-check checkmark"></i>
                   </div>
                   <div className="skeleton-ni skeleton-image--ni"></div>
                   <div className="nft__item_info">
                     <h4>
-                      <div className="skeleton-ni skeleton-text--ni skeleton-title--ni"/>
+                      <div className="skeleton-ni skeleton-text--ni skeleton-title--ni" />
                     </h4>
                     <div className="nft__item_price">
                       <div className="skeleton-ni skeleton-text--ni skeleton-price--ni" />
@@ -133,7 +97,7 @@ const NewItems = () => {
           ) : (
             <Slider {...settings}>
               {newItems.map((item, index) => (
-                <div className="nft__item" key={index}>
+                <div className="nft__item" key={index} data-aos="fade-up">
                   <div className="author_list_pp">
                     <Link
                       to={`/author/${item.authorId}`}
@@ -170,7 +134,7 @@ const NewItems = () => {
                       </div>
                     </div>
 
-                    <Link to={`/item-details/${item.id}`}>
+                    <Link to={`/item-details/${item.nftId}`}>
                       <img
                         src={item.nftImage}
                         className="lazy nft__item_preview"
@@ -179,7 +143,7 @@ const NewItems = () => {
                     </Link>
                   </div>
                   <div className="nft__item_info">
-                    <Link to={`/item-details/${item.id}`}>
+                    <Link to={`/item-details/${item.nftId}`}>
                       <h4>{item.title}</h4>
                     </Link>
                     <div className="nft__item_price">{item.price} ETH</div>
