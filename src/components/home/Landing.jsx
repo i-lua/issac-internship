@@ -12,7 +12,7 @@ const Landing = () => {
       data-bgimage="url(images/bg-shape-1.jpg) bottom"
       style={{ background: `url(${backgroundImage}) bottom / cover` }}
     >
-      <div className="v-center">
+      <div className="v-center" data-aos="fade-up">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-md-6">
@@ -35,7 +35,7 @@ const Landing = () => {
               </Link>
               <div className="mb-sm-30"></div>
             </div>
-            <div className="col-md-6 xs-hide">
+            <div className="col-md-6 xs-hide" data-aos="zoom-in">
               <img src={NFT} className="lazy img-fluid" alt="" />
             </div>
           </div>
