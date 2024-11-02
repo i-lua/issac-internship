@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const AuthorItems = ({ items, authorData }) => {
   return (
-    <div className="de_tab_content">
+    <div className="de_tab_content" data-aos="zoom-in">
       <div className="tab-1">
         <div className="row">
           {items.map((item, index) => (

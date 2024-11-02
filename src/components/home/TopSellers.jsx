@@ -50,7 +50,7 @@ const TopSellers = () => {
                     </li>
                   ))
                 : topSellers.map((seller, index) => (
-                    <li key={index}>
+                    <li key={index} data-aos="fade-up">
                       <div className="author_list_pp">
                         <Link to={`/author/${seller.authorId}`}>
                           <img

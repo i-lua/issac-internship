@@ -71,9 +71,10 @@ const ItemDetails = () => {
                   src={itemDetails.nftImage}
                   className="img-fluid img-rounded mb-sm-30 nft-image"
                   alt=""
+                  data-aos="fade-right"
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6" data-aos="fade-left">
                 <div className="item_info">
                   <h2>{itemDetails.title}</h2>
 
