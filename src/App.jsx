@@ -7,11 +7,14 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 function App() {
-  AOS.init({
-    duration: 1000,
-  });
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+    });
+  })
   return (
     <Router>
       <Nav />
